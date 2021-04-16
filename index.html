@@ -50,7 +50,7 @@
 					}
 				});
 				
-				monaco.editor.defineTheme('net-theme-dark', {
+				monaco.editor.defineTheme('dark', {
 					base: 'vs',
 					inherit: true,
 					colors: {
@@ -69,7 +69,7 @@
 					value: [
 					].join('\n'),
 					language: 'lua',
-					theme: "net-theme-dark",
+					theme: "dark",
 					folding: true,
 					scrollbar: {
 						verticalHasArrows: true,
@@ -97,7 +97,7 @@
 				
 				SetTheme = function(themeName) {
 					if (themeName == "Dark") {
-						monaco.editor.setTheme("net-theme-dark");
+						monaco.editor.setTheme("dark");
 					}
 				}
 				
