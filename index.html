@@ -1,4 +1,42 @@
+
+Skip to content
+Pull requests
+Issues
+Marketplace
+Explore
+@ImmuneLion318
+Nihon-Development /
+Web-Monaco
+
+0
+0
+
+    0
+
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+
+    Settings
+
+Delete index.html
+
+    main 
+
+@ImmuneLion318
+ImmuneLion318 committed 1 hour ago
+1 parent 1c63f95 commit b7558d18f7ce2e8cde1c489bc3024dc0d1b56c95
+Showing
+with 0 additions and 283 deletions.
+283 index.html
+@@ -1,283 +0,0 @@
 ﻿<!DOCTYPE html>
+
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
     <head>
 		<style type="text/css">
@@ -19,12 +57,15 @@
         <script src="vs/loader.js"></script>
 		<script type="text/javascript">
 			require.config({ paths: { 'vs': 'vs' } });
+			// API
 			var GetText;
 			var SetText;
 		    var SetTheme;
 			var SetScroll;
 			var ShowErr;
 			var Refresh;
+
+			// Enablers
 			var SwitchMinimap;
 			var SwitchReadonly;
 			var SwitchRenderWhitespace;
@@ -36,26 +77,37 @@
 			var SwitchFontFamily;
 			var SwitchFontLigatures;
 			var AddIntellisense;
+
+			// Variables
 			var editor;
 			var Proposals = [];
-			
+
 			require(['vs/editor/editor.main'], function () {
 				function getDependencyProposals() {
 					return Proposals;
 				}
-				
+
 				monaco.languages.registerCompletionItemProvider('lua', {
 					provideCompletionItems: function(model, position) {
 						return getDependencyProposals();
 					}
 				});
-				
-				monaco.editor.defineTheme('dark', {
+
+				monaco.editor.defineTheme('net-theme-dark', {
 					base: 'vs',
 					inherit: true,
-					colors: {
-						'editor.background': '#181818',
-					},
+					rules: [
+						{ token: 'global', foreground: '000000' },
+						{ token: 'keyword', foreground: 'ff6a00' },
+						{ token: 'comment', foreground: '666666' },
+						{ token: 'number', foreground: 'ffc600' },
+						{ token: 'string', foreground: 'ff8c3a' },
+					]
+				});
+
+				monaco.editor.defineTheme('net-theme-dark', {
+					base: 'vs-dark',
+					inherit: true,
 					rules: [
 						{ token: 'global', foreground: 'FFFFFF', fontStyle: "bold" },
 						{ token: 'keyword', foreground: 'ff6a00', fontStyle: "bold" },
@@ -64,12 +116,12 @@
 						{ token: 'string', foreground: 'ff8c3a' },
 					]
 				});
-				
+
 				editor = monaco.editor.create(document.getElementById('container'), {
 					value: [
 					].join('\n'),
 					language: 'lua',
-					theme: "dark",
+					theme: "net-theme-dark",
 					folding: true,
 					scrollbar: {
 						verticalHasArrows: true,
@@ -82,25 +134,28 @@
 					showFoldingControls: "always",
 					smoothScrolling: true,
 				});
-				
+
 				window.onresize = function() {
 					editor.layout();
 				};
-				
+
 				GetText = function() {
 					return editor.getValue();
 				}
-				
+
 				SetText = function(x) {
 					editor.setValue(x);
 				}
-				
+
 				SetTheme = function(themeName) {
 					if (themeName == "Dark") {
-						monaco.editor.setTheme("dark");
+						monaco.editor.setTheme("net-theme-dark");
+					}
+					if (themeName == "Dark") {
+						monaco.editor.setTheme("net-theme-Dark");
 					}
 				}
-				
+
 				SwitchMinimap = function(flag) {
 					editor.updateOptions({
 						minimap: {
@@ -108,62 +163,62 @@
 						}
 					});
 				}
-				
+
 				SwitchReadonly = function(flag) {
 					editor.updateOptions({
 						readOnly: flag,
 					});
 				}
-				
+
 				SwitchRenderWhitespace = function(op) {
 					editor.updateOptions({
 						renderWhitespace: op,
 					});
 				}
-				
+
 				SwitchLinks = function(flag) {
 					editor.updateOptions({
 						links: flag,
 					});
 				}
-				
+
 				SwitchLineHeight = function(num) {
 					editor.updateOptions({
 						lineHeight: num,
 					});
 				}
-				
+
 				SwitchFontSize = function(num) {
 					editor.updateOptions({
 						fontSize: num,
 					});
 				}
-				
+
 				SwitchFolding = function(flag) {
 					editor.updateOptions({
 						folding: flag,
 					});
 				}
-				
+
 				SwitchAutoIndent = function(flag) {
 					editor.updateOptions({
 						autoIndent: flag,
 					});
 				}
-				
+
 				SwitchFontFamily = function(name) {
 					editor.updateOptions({
 						fontFamily: name,
 					});
 				}
-				
+
 				SwitchFontLigatures = function(flag) {
 					editor.updateOptions({
 						fontLigatures: flag,
 					});
 				}
-				
-				
+
+
 				ShowErr = function(line, column, endline, endcolumn, errMessage) {
 					editor.revealPositionInCenter({ lineNumber: line, column: column});
 					editor.deltaDecorations([], [
@@ -178,7 +233,7 @@
 						},
 					]);
 				}
-				
+
 				AddIntellisense = function(l, k, d, i) {
 					var t;
 					switch(k)
@@ -241,7 +296,7 @@
 							t = monaco.languages.CompletionItemKind.Variable;
 							break;
 					}
-					
+
 					Proposals.push({
 						label: l,
 						kind: t,
@@ -249,11 +304,11 @@
 						insertText: i
 					});
 				}
-				
+
 				SetScroll = function(line) {
 					editor.revealLineInCenter({ lineNumber: line});
 				}
-				
+
 				Refresh = function() {
 					var text = getText();
 					setText("");
@@ -263,3 +318,24 @@
 		</script>
     </body>
 </html>
+0 comments on commit b7558d1
+@ImmuneLion318
+Attach files by dragging & dropping, selecting or pasting them.
+
+You’re not receiving notifications from this thread.
+
+    © 2021 GitHub, Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Docs
+
+    Contact GitHub
+    Pricing
+    API
+    Training
+    Blog
+    About
+
+Loading complete
